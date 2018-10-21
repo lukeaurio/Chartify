@@ -1,0 +1,15 @@
+{
+  "name": "chartify",
+  "version": "1.0.0",
+  "description": "A Simple Node JS App to chart Albums from spotify. ",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "author": "Will Preachuk",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.16.4"
+  }
+}
