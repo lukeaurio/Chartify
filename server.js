@@ -33,6 +33,14 @@ app.post('/dashboard',function (req,res){
   res.render('dashboard');
 })
 
+app.get('*',function (req,res){
+  res.render('404');
+})
+
+app.post('*',function (req,res){
+  res.render('404');
+})
+
 app.listen(3000, function () {
   console.log('Example app listening on port 3000!')
 })
