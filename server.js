@@ -1,7 +1,8 @@
 const express = require('express')
 const bodyParser = require('body-parser');
 const charts = require('chartjs');
-const app = express()
+const search = require('./SpotifyHandlers/SpotifySearch');
+const app = express();
 app.use(express.static('public'))
 app.use(bodyParser.urlencoded({ extended: true }));
 app.set('view engine', 'ejs')
@@ -11,7 +12,7 @@ app.get('/index.html',function (req,res){
 })
 
 app.post('/index.html',function (req,res){
-    console.log(req.body.searchdata);
+    console.log(search.AlbumSearch(req.body.searchdata));
     res.render('index');
   })
 
@@ -21,6 +22,7 @@ app.get('/', function (req, res) {
 
 app.post('/',function (req,res){
   console.log(req.body.searchdata);
+  console.log(search.AlbumSearch(req.body.searchdata));
   res.render('index');
 })
 
