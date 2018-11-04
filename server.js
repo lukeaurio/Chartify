@@ -20,9 +20,10 @@ app.get('/', function (req, res) {
   res.render('index')
 })
 
-app.post('/',function (req,res){
+app.post('/',async function (req,res){
   console.log(req.body.searchdata);
-  console.log(search.AlbumSearch(req.body.searchdata));
+  searchRes = await search.AlbumSearch(req.body.searchdata)
+  console.log(searchRes)
   res.render('index');
 })
 
