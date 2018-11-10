@@ -21,7 +21,7 @@ module.exports = {
             },
             (err, res, body) => {
                 if (err) {  console.log(err); return reject(err); }
-                ret = body.access_token
+                ret = "Bearer " + body.access_token
                 resolve(ret)
             });
         });
