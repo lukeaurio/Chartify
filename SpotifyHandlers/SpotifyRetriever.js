@@ -4,7 +4,7 @@ const auth = require('./SpotifyAuth')
 async function _getAllTracks(page){
     
 }
-function _getNextTrack(page){
+async function _getNextTrack(page){
     var token = await auth.getBearerAuthToken()
     var page
     if(page.next){
