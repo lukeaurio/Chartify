@@ -15,7 +15,7 @@ def main():
     )
     sp = spotipy.Spotify(auth_manager=auth_man)
 
-    playlists = sp.user_playlists(user="user_id_here")
+    playlists = sp.user_playlists(user=os.getenv("SPOTIPY_USER"))
     while playlists:
         for i, playlist in enumerate(playlists['items']):
             print(f"{i+1}: {playlist['name']} {playlist['uri']}")
