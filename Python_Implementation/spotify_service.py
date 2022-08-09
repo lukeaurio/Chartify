@@ -3,12 +3,23 @@ from spotipy.oauth2 import SpotifyClientCredentials
 import os
 import json
 
+class TrackStats:
+    def __init__(self, trackAnalysis) -> None:
+        self.acousticness    = trackAnalysis["acousticness"]
+        self.danceability    = trackAnalysis["danceability"]
+        self.energy          = trackAnalysis["energy"]
+        self.instrumentalness= trackAnalysis["instrumentalness"]
+        self.liveness        = trackAnalysis["liveness"]
+        self.speechiness     = trackAnalysis["speechiness"]
+        self.valence         = trackAnalysis["valence"]
+
 class Playlist:
     def __init__(self, Name, id) -> None:
         self.Name = Name
         self.id = id
         self.track_ids = []
         self.track_names = []
+        self.trackStats = []
 
 class SpotifyService:
     #only if you want to use a config file. I just use Environment variables
@@ -39,7 +50,10 @@ class SpotifyService:
         return ret
 
     def analyzePlaylistByTrackIds(self, trackIds = []):
-        ret = self.client.audio_features( trackIds)
+        res = self.client.audio_features( trackIds)
+        ret = []
+        for x in res:
+            ret.append(TrackStats(x))
         return ret
     def analyzePlaylistById(self, playlistId:'int'):
         return self.analyzePlaylistByTrackIds(self.processPlaylistById(playlistId).track_ids)
@@ -49,6 +63,7 @@ class SpotifyService:
             playlist.track_ids.append(song['track']['id'])
             playlist.track_names.append(song['track']['name'])
             #json.dumps(song['track'],indent=4,sort_keys=True,default=str) // useful method to get raw json out of your methods. the dcoumentation isn't always clear about all of this
+        playlist.trackStats = self.analyzePlaylistByTrackIds(playlist.track_ids)  
         return playlist
 
     def processPlaylistById(self, playlistId: int):
