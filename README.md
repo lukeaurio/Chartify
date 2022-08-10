@@ -9,8 +9,10 @@ will eventually allow creation of playlists via Spotify's User API
 API Reference: https://developer.spotify.com/documentation/web-api/reference/#/
 
 Flask Documentation: https://flask.palletsprojects.com/en/2.2.x/quickstart/#a-minimal-application
+
 Spotipy Documentation: https://spotipy.readthedocs.io/en/master/#api-reference
 
+plotly documentation: https://plotly.com/python
 
 to install all dependencies run the following command
 install Python 3.10.2, VSCode and the python extension for VSCode. 
