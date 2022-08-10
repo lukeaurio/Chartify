@@ -45,6 +45,11 @@ class Playlist:
             "track_names" : self.track_names, 
             "trackStats" : [ stat.toStatDict() for stat in self.trackStats],
         } 
+    def basicStats(self):
+        return {
+            "Name" : self.Name, 
+            "id" : self.id
+        }
 
 class SpotifyService:
     #only if you want to use a config file. I just use Environment variables
@@ -58,7 +63,7 @@ class SpotifyService:
             )
         self.client = spotipy.Spotify(auth_manager=self.auth_manager)
 
-    def get_all_user_playlists(self, user_id:'int') -> 'list()':
+    def get_all_user_playlists(self, user_id:'int',process=False) -> 'list()':
         playlists = self.client.user_playlists(user=user_id)
         ret = []
         while playlists:
@@ -66,8 +71,7 @@ class SpotifyService:
                 #print(f"{i+1}: {playlist['name']} {playlist['uri']}")
                 currentPlaylist = Playlist(playlist['name'], playlist['id'])
                 #print(json.dumps(playlist,indent=4,sort_keys=True, default=str))
-                
-                ret.append(self.processPlaylist(currentPlaylist))
+                ret.append(self.processPlaylist(currentPlaylist) if process else currentPlaylist)
             
             if playlists['next']:
                 playlists = self.client.next(playlists)
