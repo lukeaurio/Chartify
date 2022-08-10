@@ -16,15 +16,18 @@ class TrackStats:
         self.speechiness     = trackAnalysis["speechiness"]
         self.valence         = trackAnalysis["valence"]
     
+    def acceptedValues():
+        return ["acousticness","danceability","energy", "instrumentalness", "liveness", "speechiness", "valence" ]
+
     def toStatDict(self):
         return {
-             "acousticness": self.acousticness,
-             "danceability": self.danceability,
-             "energy": self.energy,
-             "instrumentalness": self.instrumentalness,
-             "liveness": self.liveness,
-             "speechiness": self.speechiness,
-             "valence": self.valence 
+             "acousticness"       : self.acousticness,
+             "danceability"       : self.danceability,
+             "energy"             : self.energy,
+             "instrumentalness"   : self.instrumentalness,
+             "liveness"           : self.liveness,
+             "speechiness"        : self.speechiness,
+             "valence"            : self.valence 
         }
 
 class Playlist:

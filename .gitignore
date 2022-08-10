@@ -2,3 +2,4 @@ Python_Implementation/config.json
 *node_modules/.bin/*
 out.txt
 *__pycache__*
+*/.cache
