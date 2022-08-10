@@ -3,6 +3,9 @@ from spotipy.oauth2 import SpotifyClientCredentials
 import os
 import json
 
+def dumpIt(obj):
+    return json.dumps(obj,indent=4,sort_keys=True,default=str)
+
 class TrackStats:
     def __init__(self, trackAnalysis) -> None:
         self.acousticness    = trackAnalysis["acousticness"]
@@ -12,6 +15,17 @@ class TrackStats:
         self.liveness        = trackAnalysis["liveness"]
         self.speechiness     = trackAnalysis["speechiness"]
         self.valence         = trackAnalysis["valence"]
+    
+    def toStatDict(self):
+        return {
+             "acousticness": self.acousticness,
+             "danceability": self.danceability,
+             "energy": self.energy,
+             "instrumentalness": self.instrumentalness,
+             "liveness": self.liveness,
+             "speechiness": self.speechiness,
+             "valence": self.valence 
+        }
 
 class Playlist:
     def __init__(self, Name, id) -> None:
@@ -20,6 +34,14 @@ class Playlist:
         self.track_ids = []
         self.track_names = []
         self.trackStats = []
+    def toDict(self):
+        return {
+            "Name" : self.Name, 
+            "id" : self.id, 
+            "track_ids" : self.track_ids, 
+            "track_names" : self.track_names, 
+            "trackStats" : [ stat.toStatDict() for stat in self.trackStats],
+        } 
 
 class SpotifyService:
     #only if you want to use a config file. I just use Environment variables
@@ -43,6 +65,7 @@ class SpotifyService:
                 #print(json.dumps(playlist,indent=4,sort_keys=True, default=str))
                 
                 ret.append(self.processPlaylist(currentPlaylist))
+            
             if playlists['next']:
                 playlists = self.client.next(playlists)
             else:

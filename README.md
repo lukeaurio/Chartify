@@ -17,7 +17,9 @@ install Python 3.10.2, VSCode and the python extension for VSCode.
 
 (If you want to use WSL / linux It'll take like an hour but I'd be glad to give you some links on how to do and configure it to work with VPNs)
 
-pip install pip-system-certs spotipy flask matplotlib
+pip install pip-system-certs spotipy flask plotly 
+
+optionally you can use pandas dataframse really easily with plotly. Try with all thy might
 
 as well make sure the following command is run in all terminals 
 
