@@ -68,9 +68,7 @@ class SpotifyService:
         ret = []
         while playlists:
             for i, playlist in enumerate(playlists['items']):
-                #print(f"{i+1}: {playlist['name']} {playlist['uri']}")
                 currentPlaylist = Playlist(playlist['name'], playlist['id'])
-                #print(json.dumps(playlist,indent=4,sort_keys=True, default=str))
                 ret.append(self.processPlaylist(currentPlaylist) if process else currentPlaylist)
             
             if playlists['next']:
