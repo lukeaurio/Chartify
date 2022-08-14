@@ -32,15 +32,15 @@ def generate_chart(playlist, measures, graph_scope = ""):
 
     for measure in measures:
         fig.add_trace(go.Scatter(
-            x = playlist.track_names,
-            y = [(i.toStatDict()[measure] if i.toStatDict()[measure] > .001 else None) for i in playlist.trackStats],
+            x = [i.name + ": (" + i.artists[0] + ")" for i in playlist.tracks],#playlist.track_names,
+            y = [(i.stats.toStatDict()[measure] if i.stats.toStatDict()[measure] > .001 else None) for i in playlist.tracks],
             name = measure.capitalize(),
             line =dict( width=2),
             connectgaps=True
             )
         )
 
-    fig.update_layout(title=f"{graph_scope}Flow of {playlist.Name}",
+    fig.update_layout(title=f"{graph_scope} Flow of {playlist.Name}",
                    xaxis_title='Track Title',
                    yaxis_title='Value',
                    template = "plotly_dark"

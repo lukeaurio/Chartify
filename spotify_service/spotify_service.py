@@ -3,6 +3,7 @@ from spotipy.oauth2 import SpotifyClientCredentials
 import os
 import json
 
+
 def dumpIt(obj):
     return json.dumps(obj,indent=4,sort_keys=True,default=str)
 
@@ -30,20 +31,32 @@ class TrackStats:
              "valence"            : self.valence 
         }
 
+class Track:
+    def __init__(self, id ="", name = "",artists="") -> None:
+        self.id = id
+        self.name = name
+        self.artists = artists
+        self.stats = None
+
+    def toTrackDict(self):
+        return {
+            "title" : self.name,
+            "trackId" : self.id,
+            "artists" : self.artists,
+            "stats" : self.stats.toStatDict()
+        }
+
 class Playlist:
     def __init__(self, Name, id) -> None:
         self.Name = Name
         self.id = id
-        self.track_ids = []
-        self.track_names = []
-        self.trackStats = []
+        self.tracks = []
+        
     def toDict(self):
         return {
             "Name" : self.Name, 
-            "id" : self.id, 
-            "track_ids" : self.track_ids, 
-            "track_names" : self.track_names, 
-            "trackStats" : [ stat.toStatDict() for stat in self.trackStats],
+            "playlistId" : self.id, 
+            "tracks" : [ track.toTrackDict() for track in self.tracks],
         } 
     def basicStats(self):
         return {
@@ -77,21 +90,20 @@ class SpotifyService:
                 playlists = None
         return ret
 
-    def analyzePlaylistByTrackIds(self, trackIds = []):
-        res = self.client.audio_features( trackIds)
-        ret = []
+    def analyzePlaylistByTrackIds(self, trackList = []):
+        res = self.client.audio_features( t.id for t in trackList)
+        ret = 0
         for x in res:
-            ret.append(TrackStats(x))
-        return ret
+            trackList[ret].stats = TrackStats(x)
+            ret +=1
+        return trackList
     def analyzePlaylistById(self, playlistId:'int'):
-        return self.analyzePlaylistByTrackIds(self.processPlaylistById(playlistId).track_ids)
+        return self.processPlaylistById(playlistId)
 
-    def processPlaylist(self, playlist: Playlist):        
+    def processPlaylist(self, playlist: Playlist):     
         for i, song in enumerate(self.client.playlist_tracks(playlist.id)['items']):
-            playlist.track_ids.append(song['track']['id'])
-            playlist.track_names.append(song['track']['name'])
-            #json.dumps(song['track'],indent=4,sort_keys=True,default=str) // useful method to get raw json out of your methods. the dcoumentation isn't always clear about all of this
-        playlist.trackStats = self.analyzePlaylistByTrackIds(playlist.track_ids)  
+            playlist.tracks.append(Track(song['track']['id'],song['track']['name'], [a["name"]for a in song['track']['artists']]))
+        playlist.tracks = self.analyzePlaylistByTrackIds(playlist.tracks)  
         return playlist
 
     def processPlaylistById(self, playlistId: int):
