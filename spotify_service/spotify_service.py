@@ -32,10 +32,11 @@ class TrackStats:
         }
 
 class Track:
-    def __init__(self, id ="", name = "",artists="") -> None:
+    def __init__(self, id ="", name = "",artists="", album = "") -> None:
         self.id = id
         self.name = name
         self.artists = artists
+        self.album = album
         self.stats = None
 
     def toTrackDict(self):
@@ -97,16 +98,31 @@ class SpotifyService:
             trackList[ret].stats = TrackStats(x)
             ret +=1
         return trackList
-    def analyzePlaylistById(self, playlistId:'int'):
+    def analyzePlaylistById(self, playlistId:'str'):
         return self.processPlaylistById(playlistId)
 
     def processPlaylist(self, playlist: Playlist):     
         for i, song in enumerate(self.client.playlist_tracks(playlist.id)['items']):
-            playlist.tracks.append(Track(song['track']['id'],song['track']['name'], [a["name"]for a in song['track']['artists']]))
+            playlist.tracks.append(Track(song['track']['id'],song['track']['name'], [a["name"]for a in song['track']['artists']], song['track']['album']['name']))
         playlist.tracks = self.analyzePlaylistByTrackIds(playlist.tracks)  
         return playlist
 
-    def processPlaylistById(self, playlistId: int):
+    def processPlaylistById(self, playlistId: str):
         playlist = self.client.playlist(playlistId)
         currentPlaylist = Playlist(playlist['name'], playlist['id'])
-        return self.processPlaylist(currentPlaylist)
+        for i, song in enumerate(playlist['tracks']['items']):
+            currentPlaylist.tracks.append(Track(song['track']['id'],song['track']['name'], [a["name"]for a in song['track']['artists']], song['track']['album']['name']))
+        currentPlaylist.tracks = self.analyzePlaylistByTrackIds(currentPlaylist.tracks)
+        return currentPlaylist
+
+    def processAlbumsByIds(self, albumIds):
+        albums = self.client.albums(albumIds)
+        ret = []
+        
+        for i, album in enumerate(albums['albums']):
+            currentPlaylist = Playlist(album['name'], album['id'])
+            for i, song in enumerate(album['tracks']['items']):
+                currentPlaylist.tracks.append(Track(song['id'],song['name'], [a["name"]for a in song['artists']], album['name']))
+            currentPlaylist.tracks = self.analyzePlaylistByTrackIds(currentPlaylist.tracks)
+            ret.append(currentPlaylist)
+        return ret

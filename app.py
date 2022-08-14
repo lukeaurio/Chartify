@@ -8,8 +8,22 @@ import plotly.graph_objects as go
 app = Flask(__name__)
 sp = spotify_service.SpotifyService()
 
+@app.route("/analysis/album/<album_id>/<measure>")
+def album_specific_measure_route(album_id,measure: str):
+    if measure not in spotify_service.TrackStats.acceptedValues():
+        return "Not a proper value"
+    playlist = sp.processAlbumsByIds([album_id])[0]
+    
+    return generate_chart(playlist, [measure], measure.capitalize())
+
+@app.route("/analysis/album/<album_id>")
+def album_all_measure_route(album_id):
+    playlist = sp.processAlbumsByIds([album_id])[0]
+    
+    return generate_chart(playlist, spotify_service.TrackStats.acceptedValues())
+
 @app.route("/analysis/playlist/<playlist_id>/<measure>")
-def specific_measure_route(playlist_id,measure: str):
+def playlist_specific_measure_route(playlist_id,measure: str):
     if measure not in spotify_service.TrackStats.acceptedValues():
         return "Not a proper value"
     playlist = sp.processPlaylistById(playlist_id)
@@ -17,7 +31,7 @@ def specific_measure_route(playlist_id,measure: str):
     return generate_chart(playlist, [measure], measure.capitalize())
 
 @app.route("/analysis/playlist/<playlist_id>")
-def all_measure_route(playlist_id):
+def playlist_all_measure_route(playlist_id):
     playlist = sp.processPlaylistById(playlist_id)
     
     return generate_chart(playlist, spotify_service.TrackStats.acceptedValues())

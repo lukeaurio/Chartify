@@ -8,7 +8,8 @@ def main():
     pio.renderers.default = 'browser'
     sp = spotify_service.SpotifyService()
     playlists = sp.get_all_user_playlists(user_id = os.getenv("SPOTIPY_USER"), process=True)
-    print(h.dumpIt(playlists[0].toDict()))
+    for p in playlists:
+        print(h.dumpIt(p.toDict()))
     print("fin")
 
 if __name__=="__main__":
