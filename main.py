@@ -7,9 +7,11 @@ import plotly.graph_objects as go
 def main():
     pio.renderers.default = 'browser'
     sp = spotify_service.SpotifyService()
-    playlists = sp.get_all_user_playlists(user_id = os.getenv("SPOTIPY_USER"))
-    print(h.dumpIt(playlists[0].toDict()))
-    print("fin")
+    playlists = sp.get_all_user_playlists(user_id = "zacmac310")
+    print(playlists)
+    
+    # print(h.dumpIt(playlists[0].toDict()))
+    # print("fin")
 
 if __name__=="__main__":
     main()

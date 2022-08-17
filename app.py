@@ -2,6 +2,7 @@ from flask import Flask
 from spotify_service import spotify_service
 import os
 from helpers import helpers as h
+from spotifysongtest import getSentiment 
 import plotly.io as pio
 import plotly.graph_objects as go
 
@@ -27,22 +28,37 @@ def user_playlist_route(user_id):
     playlists = sp.get_all_user_playlists(user_id = user_id)
     return h.dumpIt([i.basicStats() for i in playlists])
 
-def generate_chart(playlist, measures, graph_scope = ""):
+#print(getSentiment("zacmac310", 0))
+#songs = getSentiment("zacmac310", 0)
+
+@app.route("/user/playlists/<user_id>/<playlistNum>")
+def sentiment_route(user_id, playlistNum):
+    song = getSentiment(user_id, playlistNum)
+    return generate_chart(song)
+
+
+def generate_chart(songs, graph_scope = ""):
     fig = go.Figure()
+    
+    # fig.add_trace(go.Scatter(
+    #     x = list(songs.keys()),
+    #     y = list(songs.values()),
+    #     #name = measure.capitalize(),
+    #     line =dict( width=2),
+    #     connectgaps=False
+    #     ))
+    
+    fig.add_trace(go.Bar(
+        x = list(songs.keys()),
+        y = list(songs.values()),
+        
+        ))
 
-    for measure in measures:
-        fig.add_trace(go.Scatter(
-            x = playlist.track_names,
-            y = [(i.toStatDict()[measure] if i.toStatDict()[measure] > .001 else None) for i in playlist.trackStats],
-            name = measure.capitalize(),
-            line =dict( width=2),
-            connectgaps=True
-            )
-        )
 
-    fig.update_layout(title=f"{graph_scope}Flow of {playlist.Name}",
+    fig.update_layout(title=f"{graph_scope}Flow of Zac's Wedding playlist",
                    xaxis_title='Track Title',
                    yaxis_title='Value',
                    template = "plotly_dark"
                    )
     return fig.to_html()
+

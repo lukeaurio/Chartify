@@ -57,13 +57,18 @@ class SpotifyService:
     #configs = json.loads(f)
     #f.close()
     def __init__(self) -> None:
+        # self.auth_manager = SpotifyClientCredentials(
+        #     client_id=os.getenv("SPOTIPY_CLIENT_ID"),#or configs["client_id"]
+        #     client_secret=os.getenv("SPOTIPY_CLIENT_SECRET")#or configs["client_secret"] 
+        #     )
+        # self.client = spotipy.Spotify(auth_manager=self.auth_manager)
         self.auth_manager = SpotifyClientCredentials(
-            client_id=os.getenv("SPOTIPY_CLIENT_ID"),#or configs["client_id"]
-            client_secret=os.getenv("SPOTIPY_CLIENT_SECRET")#or configs["client_secret"] 
+            client_id= "",#or configs["client_id"]
+            client_secret=""#or configs["client_secret"] 
             )
         self.client = spotipy.Spotify(auth_manager=self.auth_manager)
 
-    def get_all_user_playlists(self, user_id:'int',process=False) -> 'list()':
+    def get_all_user_playlists(self, user_id,process=False) -> 'list()':
         playlists = self.client.user_playlists(user=user_id)
         ret = []
         while playlists:
