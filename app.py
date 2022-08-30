@@ -51,7 +51,7 @@ def generate_chart(playlist, measures, graph_scope = ""):
             name = measure.capitalize(),
             line =dict( width=2),
             connectgaps=True,
-            visible= True if measure in spotify_service.TrackStats.bestMetrics() and len(measures)>1 else 'legendonly'            
+            visible= True if measure in spotify_service.TrackStats.bestMetrics() or len(measures)==1 else 'legendonly'            
             )
         )
 
