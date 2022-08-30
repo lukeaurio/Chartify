@@ -43,14 +43,15 @@ def user_playlist_route(user_id):
 
 def generate_chart(playlist, measures, graph_scope = ""):
     fig = go.Figure()
-
+    
     for measure in measures:
         fig.add_trace(go.Scatter(
             x = [i.name + ": (" + i.artists[0] + ")" for i in playlist.tracks],#playlist.track_names,
             y = [(i.stats.toStatDict()[measure] if i.stats.toStatDict()[measure] > .001 else None) for i in playlist.tracks],
             name = measure.capitalize(),
             line =dict( width=2),
-            connectgaps=True
+            connectgaps=True,
+            visible= True if measure in spotify_service.TrackStats.bestMetrics() else 'legendonly'            
             )
         )
 

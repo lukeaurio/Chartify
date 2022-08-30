@@ -2,7 +2,7 @@ import spotipy
 from spotipy.oauth2 import SpotifyClientCredentials
 import os
 import json
-
+from lyricsgenius import Genius
 
 def dumpIt(obj):
     return json.dumps(obj,indent=4,sort_keys=True,default=str)
@@ -19,6 +19,9 @@ class TrackStats:
     
     def acceptedValues():
         return ["acousticness","danceability","energy", "instrumentalness", "liveness", "speechiness", "valence" ]
+    
+    def bestMetrics():
+        return ["danceability","energy", "valence" ]
 
     def toStatDict(self):
         return {
@@ -118,7 +121,6 @@ class SpotifyService:
     def processAlbumsByIds(self, albumIds):
         albums = self.client.albums(albumIds)
         ret = []
-        
         for i, album in enumerate(albums['albums']):
             currentPlaylist = Playlist(album['name'], album['id'])
             for i, song in enumerate(album['tracks']['items']):
@@ -126,3 +128,10 @@ class SpotifyService:
             currentPlaylist.tracks = self.analyzePlaylistByTrackIds(currentPlaylist.tracks)
             ret.append(currentPlaylist)
         return ret
+
+class genius_service:
+    def __init__(self):
+        self.client = Genius(os.getenv("GENIUS_TOKEN"))
+        self.client.remove_section_headers = True
+        self.client.skip_non_songs = False
+        self.client.excluded_terms = ["(Remix)", "(Live)"]
