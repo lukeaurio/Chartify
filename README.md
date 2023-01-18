@@ -39,8 +39,8 @@ to run the app, it's as simple as
 
 or better yet you can run it via containers
 
-    docker build -t <somerepo>/spotipy:tag .
-    docker run --name spotipy -t -d -p <available port>:5000 <somerepo>/spotipy:tag
+    docker build -t <somerepo>/chartify:tag .
+    docker run --name spotipy -t -d -p <available port>:5000 <somerepo>/chartify:tag
 
 and then to test one of the charting methods simply enter the following in your browser
 
