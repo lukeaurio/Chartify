@@ -3,3 +3,4 @@ config.json
 out.txt
 *__pycache__*
 .cache
+*.env

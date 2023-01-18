@@ -1,0 +1,7 @@
+.cache
+*.md
+.git
+.__pycache__
+.gitignore
+*.env
+*.env.sample

@@ -21,7 +21,7 @@ install [Python 3.10.4][1], [VSCode][2] and the [python extension for VSCode][3]
 
 `***Warning! (If you want to use WSL / linux It'll take like an hour but I'd be glad to give you some links on how to do and configure it to work with VPNs)***`
 
-    pip install pip-system-certs spotipy flask plotly 
+    pip install pip-system-certs spotipy flask plotly lyricsgenius
 
 optionally you can use pandas dataframes really easily with plotly. Try with all thy might
 
@@ -33,7 +33,14 @@ as well make sure the following command is run in all terminals
 
 to run the app, it's as simple as
 
-flask run
+    flask run
+
+#  Containerized This time!
+
+or better yet you can run it via containers
+
+    docker build -t <somerepo>/spotipy:tag .
+    docker run --name spotipy -t -d -p <available port>:5000 <somerepo>/spotipy:tag
 
 and then to test one of the charting methods simply enter the following in your browser
 
