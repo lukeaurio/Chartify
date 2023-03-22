@@ -8,7 +8,7 @@ Can be used to graph and analyze albums, songs and (eventually) playlists
 for their emotional highs and lows for proper playlist development.
 will eventually allow creation of playlists via Spotify's User API
 
-Eventually it may do sentiment anaalysis using Lyric data but that's far of in the future
+Eventually it may do sentiment analysis using Lyric data but that's far of in the future
 
 # Dependencies
 
@@ -40,7 +40,7 @@ to run the app, it's as simple as
 or better yet you can run it via containers
 
     docker build -t <somerepo>/chartify:tag .
-    docker run --name spotipy -t -d -p <available port>:5000 <somerepo>/chartify:tag
+    docker run --name ChartifyAPI -d -p <available port>:5000 <somerepo>/chartify:tag
 
 and then to test one of the charting methods simply enter the following in your browser
 
