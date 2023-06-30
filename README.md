@@ -8,7 +8,9 @@ Can be used to graph and analyze albums, songs and (eventually) playlists
 for their emotional highs and lows for proper playlist development.
 will eventually allow creation of playlists via Spotify's User API
 
-Eventually it may do sentiment analysis using Lyric data but that's far of in the future
+Haven't figured out how to chart the data yet for super long playlists but that's a problem for later
+
+Eventually it may do sentiment analysis using Lyric data but that's far off in the future
 
 # Dependencies
 
@@ -28,10 +30,24 @@ optionally you can use pandas dataframes really easily with plotly. Try with all
 as well make sure the following command is run in all terminals 
 
     set CURL_CA_BUNDLE="" python
+#  Configuration
+
+you'll need to make a [Spotify Developer Account][4] and [generate an application][5] in order to run Chartify. 
+
+After doing so, fill out the 
+    chartify.env.sample
+file and rename it to the proper 
+    chartify.env
+or you could set them your environment variables in your bash profile but that'd be overkill. Right?
+
+[4]: <https://developer.spotify.com/documentation/web-api> "The Documentation"
+[5]: <https://developer.spotify.com/documentation/web-api/tutorials/getting-started#request-an-access-token> "How to generate an application / get client_id and client secret"
 
 #  Firing it Up!
 
-to run the app, it's as simple as
+to run the app, it's as simple as setting environment variables like those in 
+    chartify.env
+and then calling
 
     flask run
 
@@ -40,12 +56,19 @@ to run the app, it's as simple as
 or better yet you can run it via containers
 
     docker build -t <somerepo>/chartify:tag .
-    docker run --name ChartifyAPI -d -p <available port>:5000 <somerepo>/chartify:tag
+    docker run --name ChartifyAPI --env-file <./path_to_chartify.env> -d -p <available port>:5000 <somerepo>/chartify:tag 
+
+#  What if I'm scared of Command Lines?
+
+Then there's a shell script! simply call
+
+    chmod +x ./build_and_run.sh
+    ./build_and_run.sh <preferred_name_of_tag_or_leave_blank_for_latest>
+It will perform the build, kill and remove the running container (if used before) and then run your new build!
 
 and then to test one of the charting methods simply enter the following in your browser
 
-http://localhost:5000/analysis/playlist/2YOvQj60ovUoJCsYxO7wzN
-
+http://localhost:5000/analysis/playlist/43M6s8VIc1duJg6MXDyXUV
 
 
 So go ahead

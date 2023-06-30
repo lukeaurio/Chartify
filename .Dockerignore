@@ -1,5 +1,6 @@
 .cache
 *.md
+*.sh
 .git
 .__pycache__
 .gitignore
