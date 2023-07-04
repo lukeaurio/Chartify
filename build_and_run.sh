@@ -5,4 +5,4 @@ fi
 echo $(docker build -t $tag .)
 echo $(docker kill ChartifyAPI_Test)
 echo $(docker rm ChartifyAPI_Test)
-echo $(docker run --name ChartifyAPI_Test --env-file ./chartify.env -d -p 5000:5000 $tag)
+echo $(docker run --name ChartifyAPI_Test --restart unless-stopped --env-file ./chartify.env -d -p 5000:5000 $tag)
