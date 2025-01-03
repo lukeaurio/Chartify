@@ -47,3 +47,6 @@ pip install -r requirements.txt
 
 # Run Flask application
 flask run
+
+#deactivate virtual environment when app closes
+pyenv deactivate

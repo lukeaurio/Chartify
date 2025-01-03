@@ -4,3 +4,11 @@ out.txt
 *__pycache__*
 .cache
 *.env
+
+# Ignore pyenv environments
+.python-version
+venv/
+env/
+ENV/
+.venv/
+.pyenv/
