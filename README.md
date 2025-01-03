@@ -1,4 +1,9 @@
 # Chartify
+
+**WARNING: This project is deprecated. Spotify no longer allows for audio analysis endpoint requests from dev mode apps and new Spotify API tokens.**
+
+*For more details, see this [TechCrunch article](https://techcrunch.com/2024/11/27/spotify-cuts-developer-access-to-several-of-its-recommendation-features/). This change is quite frustrating for developers who relied on these features.*
+
 A simple app used to show the Emotional flow of albums and playlists
 Based off of an Idea by RCharlie <https://www.rcharlie.com/post/fitter-happier/>
 
