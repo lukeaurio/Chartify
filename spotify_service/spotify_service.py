@@ -17,10 +17,10 @@ class TrackStats:
         self.speechiness     = trackAnalysis["speechiness"]
         self.valence         = trackAnalysis["valence"]
     
-    def acceptedValues():
+    def acceptedValues(self):
         return ["acousticness","danceability","energy", "instrumentalness", "liveness", "speechiness", "valence" ]
     
-    def bestMetrics():
+    def bestMetrics(self):
         return ["danceability","energy", "valence" ]
 
     def toStatDict(self):
@@ -80,7 +80,7 @@ class SpotifyService:
             )
         self.client = spotipy.Spotify(auth_manager=self.auth_manager)
 
-    def get_all_user_playlists(self, user_id:'int',process=False) -> 'list()':
+    def get_all_user_playlists(self, user_id: str, process=False) -> list:
         playlists = self.client.user_playlists(user=user_id)
         ret = []
         while playlists:
@@ -95,7 +95,7 @@ class SpotifyService:
         return ret
 
     def analyzePlaylistByTrackIds(self, trackList = []):
-        res = self.client.audio_features( t.id for t in trackList)
+        res = self.client.audio_features([t.id for t in trackList])
         ret = 0
         for x in res:
             trackList[ret].stats = TrackStats(x)

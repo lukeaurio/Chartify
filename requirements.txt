@@ -1,0 +1,5 @@
+pip-system-certs
+spotipy
+flask
+plotly
+lyricsgenius
