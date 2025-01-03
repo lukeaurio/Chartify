@@ -16,6 +16,7 @@ class TrackStats:
         self.liveness        = trackAnalysis["liveness"]
         self.speechiness     = trackAnalysis["speechiness"]
         self.valence         = trackAnalysis["valence"]
+        self.loudness        = trackAnalysis["loudness"]
     
     def acceptedValues(self):
         return ["acousticness","danceability","energy", "instrumentalness", "liveness", "speechiness", "valence" ]
@@ -31,6 +32,7 @@ class TrackStats:
              "instrumentalness"   : self.instrumentalness,
              "liveness"           : self.liveness,
              "speechiness"        : self.speechiness,
+             "loudness"           : self.loudness,
              "valence"            : self.valence 
         }
 
@@ -95,7 +97,7 @@ class SpotifyService:
         return ret
 
     def analyzePlaylistByTrackIds(self, trackList = []):
-        res = self.client.audio_features([t.id for t in trackList])
+        res = self.client.audio_features(tracks=[t.id for t in trackList])
         ret = 0
         for x in res:
             trackList[ret].stats = TrackStats(x)

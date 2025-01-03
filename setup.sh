@@ -8,12 +8,18 @@ then
 fi
 
 # Initialize pyenv
-export PATH="$HOME/.pyenv/bin:$PATH"
+export PATH="$HOME/.pyenv/bin:$PATH"s
 eval "$(pyenv init --path)"
 eval "$(pyenv init -)"
 eval "$(pyenv virtualenv-init -)"
 
-# Set Python version
+# Set environment variables from chartify.env file
+if [ -f chartify.env ]; then
+    export $(grep -v '^#' chartify.env | xargs)
+else
+    echo "chartify.env file not found. Please create the file with the necessary environment variables."
+    exit 1
+fi
 # Check if Python is installed and set the version
 if command -v python3 &> /dev/null; then
     PYTHON_VERSION=$(python3 --version | awk '{print $2}')
